@@ -1,0 +1,17 @@
+---
+#logstash_docker_image: docker.elastic.co/logstash/logstash
+logstash_docker_image: melodous/logstash
+logstash_version: 5.4.1
+logstash_monitoring: true
+logstash_check_logstashstatus: true
+logstash_group: logstash
+logstash_group_id: 1000
+logstash_user: logstash
+logstash_user_id: 1000
+logstash_output_es_hosts: localhost
+logstash_tcp_input_port: 4000
+conf_dir: /etc/logstash
+redis_ansible_group: indexers
+logstash_docker_labels:
+  os_environment: "{{ docker_os_environment | default('default') }}"
+  os_container_type: logstash

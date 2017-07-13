@@ -1,0 +1,19 @@
+input {
+{% for host in groups[redis_ansible_group] %}
+    redis {
+        host => "{{ hostvars[host].inventory_hostname }}"
+        type => "redis-input"
+        data_type => "list"
+        key => "filebeat"
+    }
+{% endfor %}
+    heartbeat {
+        interval => 30
+        type => "heartbeat"
+	message => "epoch"
+    }
+    tcp {
+        codec => fluent
+        port => 4000
+    }
+}

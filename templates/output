@@ -1,0 +1,15 @@
+output {
+    if [type] == "heartbeat" {
+        zabbix {
+            zabbix_server_host => "{{ zabbix_server }}"
+            zabbix_host => "[@metadata][zabbix_host]"
+            zabbix_key => "[@metadata][zabbix_key]"
+            zabbix_value => clock
+        }
+    } else {
+        elasticsearch {
+            hosts => {{ logstash_output_es_hosts | to_json }}
+            index => "logstash-%{+YYYY.MM.dd}"
+        }
+    }
+}

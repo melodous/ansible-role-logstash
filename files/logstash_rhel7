@@ -1,0 +1,13 @@
+[Unit]
+Description=Logstash container
+Requires=docker.service
+After=docker.service
+
+[Service]
+Restart=always
+RestartSec=1s
+ExecStart=/usr/bin/docker start -a logstash
+ExecStop=/usr/bin/docker stop -t 2 logstash
+
+[Install]
+WantedBy=multi-user.target

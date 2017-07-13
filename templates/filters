@@ -1,0 +1,33 @@
+filter {
+  if [type] == "syslog" {
+    grok {
+      match => { "message" => "%{SYSLOGTIMESTAMP:syslog_timestamp} %{SYSLOGHOST:syslog_hostname} %{DATA:syslog_program}(?:\[%{POSINT:syslog_pid}\])?: %{GREEDYDATA:syslog_message}" }
+      add_field => [ "received_at", "%{@timestamp}" ]
+      add_field => [ "received_from", "%{host}" ]
+    }
+    date {
+      match => [ "syslog_timestamp", "MMM  d HH:mm:ss", "MMM dd HH:mm:ss" ]
+    }
+  } else if [type] == "apache" {
+    grok {
+      match => { "message" => "%{COMBINEDAPACHELOG}" }
+    }
+    date {
+      match => [ "timestamp" , "dd/MMM/yyyy:HH:mm:ss Z" ]
+    }
+  } else if [type] == "heartbeat" {
+    mutate {
+      add_field => { "[@metadata][zabbix_key]" => "logstash.heartbeat" }
+      add_field => { "[@metadata][zabbix_host]" => "len1ixa1" }
+    }
+  } else if [type] == "redis-input" {
+    mutate {
+      rename => { "[docker][image]" => "docker_image" }
+      rename => { "[docker][image_id]" => "docker_image_id" }
+      rename => { "[docker][labels][io.kubernetes.pod.name]" => "pod_name" }
+      rename => { "[docker][labels][io.kubernetes.pod.namespace]" => "project_name" }
+      rename => { "[docker][name]" => "container_name" }
+      remove_field => [ "docker" ]
+    }
+  }
+}

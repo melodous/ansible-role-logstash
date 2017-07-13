@@ -1,0 +1,5 @@
+---
+# handlers file for .
+# Restart service and ensure it is enabled
+- name: restart logstash
+  service: name=logstash state=restarted enabled=yes
