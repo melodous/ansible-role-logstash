@@ -22,11 +22,18 @@ vagrant:
     - name: virtualbox
       type: virtualbox
       options:
-        memory: 512
+        memory: 1024
         cpus: 2
   instances:
     - name: logstash
       ansible_groups:
         - group1
+        - indexers
+      interfaces:
+        - network_name: private_network
+          type: dhcp
+          auto_config: true
 verifier:
   name: testinfra
+  options:
+    sudo: True

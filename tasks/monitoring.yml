@@ -3,10 +3,10 @@
   setup: filter='*'
 
 - name: Create zabbix agent dir for scripts
-  file: path=/etc/zabbix/script/logstash state=directory mode=755 owner=root group=root
+  file: path=/etc/zabbix/script/logstash state=directory mode=0755 owner=root group=root
 
 - name: Copy redis scripts for monitoring
-  copy: src=logstash_zabbix dest=/etc/zabbix/script/logstash/logstash_zabbix mode=755 owner=root group=root
+  copy: src=logstash_zabbix dest=/etc/zabbix/script/logstash/logstash_zabbix mode=0755 owner=root group=root
 
 - name: Add crontab to logstash monitoring
   cron: name="Logstash Zabbix sender" minute=*/5 cron_file=zabbix user=zabbix job="/etc/zabbix/script/logstash/logstash_zabbix --zabbix {{ zabbix_server }}"

@@ -1,17 +1,9 @@
 ---
-#- name: login to registry
-#  shell: "docker login -e {{ docker_registry_mail }} -p {{ docker_registry_pass }} -u {{ docker_registry_user }} {{ docker_registry_host }}"
-#  changed_when: False
-#  register: result_login
-#  until: result_login|success
-#  retries: 3
-#  delay: 1
-#  when: docker_login
-#  tags: update
-
 - name: Create group
   shell: groupadd -o -g {{ logstash_group_id }} {{ logstash_group }}
   ignore_errors: true
+  tags:
+    - skip_ansible_lint
 
 - name: Create user
   user: name={{ logstash_user }} uid={{ logstash_user_id }} group={{ logstash_group }} non_unique=true
@@ -47,7 +39,9 @@
   until: result_docker|success
   retries: 3
   delay: 1
-  tags: update
+  tags:
+    - update
+    - skip_ansible_lint
 
 - name: Start logstash containers
   docker_container:
