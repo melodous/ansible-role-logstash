@@ -18,7 +18,7 @@ filter {
   } else if [type] == "heartbeat" {
     mutate {
       add_field => { "[@metadata][zabbix_key]" => "logstash.heartbeat" }
-      add_field => { "[@metadata][zabbix_host]" => "len1ixa1" }
+      add_field => { "[@metadata][zabbix_host]" => "{{ ansible_host }}" }
     }
   } else if [type] == "redis-input" {
     mutate {

@@ -139,6 +139,17 @@ Logstash configuration
 
 
 
+.. envvar:: zabbix_server
+
+   Zabbix server for output
+
+::
+
+  zabbix_server: localhost
+
+
+
+
 .. envvar:: logstash_heap_size
 
    Logstash java heap size, example 256m
@@ -160,7 +171,6 @@ Logstash monitoring management
    ::
 
      logstash_monitoring: true
-
 
 
 

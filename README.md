@@ -104,6 +104,12 @@ pip ansible role default variables
 
     redis_ansible_group: indexers
 
+`zabbix_server`
+
+> Zabbix server for output
+
+    zabbix_server: localhost
+
 `logstash_heap_size`
 
 > Logstash java heap size, example 256m
@@ -135,6 +141,12 @@ changelog.
 ##### Changed
 
 -   First change
+
+### logstash v0.0.2 - 2017/07/17
+
+##### Changed
+
+-   Fixed zabbix\_host on filters
 
 ### logstash v0.0.1 - 2017/07/13
 

@@ -21,6 +21,14 @@ Changed
 
 - First change
 
+logstash v0.0.2 - 2017/07/17
+---------------------------------------
+
+Changed
+~~~~~~~
+
+- Fixed zabbix_host on filters
+
 logstash v0.0.1 - 2017/07/13
 ---------------------------------------
 
