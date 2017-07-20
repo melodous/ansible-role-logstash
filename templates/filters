@@ -20,14 +20,23 @@ filter {
       add_field => { "[@metadata][zabbix_key]" => "logstash.heartbeat" }
       add_field => { "[@metadata][zabbix_host]" => "{{ ansible_host }}" }
     }
-  } else if [type] == "redis-input" {
+  } else if [type] == "openshift" {
     mutate {
       rename => { "[docker][image]" => "docker_image" }
       rename => { "[docker][image_id]" => "docker_image_id" }
       rename => { "[docker][labels][io.kubernetes.pod.name]" => "pod_name" }
       rename => { "[docker][labels][io.kubernetes.pod.namespace]" => "project_name" }
       rename => { "[docker][name]" => "container_name" }
-      remove_field => [ "docker" ]
+      lowercase => [ "project_name", "os_cluster_name" ]
+    }
+    if ![project_name] {
+      mutate {
+        add_field => { "project_name" => "empty" }
+      }
+    } else {
+      mutate {
+        remove_field => [ "docker" ]
+      }
     }
   }
 }

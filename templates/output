@@ -6,6 +6,11 @@ output {
             zabbix_key => "[@metadata][zabbix_key]"
             zabbix_value => clock
         }
+    } else if [type] == "openshift" {
+        elasticsearch {
+            hosts => {{ logstash_output_es_hosts | to_json }}
+            index => "openshift.%{os_cluster_name}.%{project_name}-%{+YYYY.MM.dd}"
+        }
     } else {
         elasticsearch {
             hosts => {{ logstash_output_es_hosts | to_json }}
