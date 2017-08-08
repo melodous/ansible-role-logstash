@@ -11,6 +11,16 @@ output {
             hosts => {{ logstash_output_es_hosts | to_json }}
             index => "openshift.%{os_cluster_name}.%{project_name}-%{+YYYY.MM.dd}"
         }
+#        if [project_name] == "finanzas-dev" or [project_name] == "finanzas-cua" {
+#          if [@metadata][zabbix_key] {
+#            zabbix {
+#              zabbix_server_host => "lel1zb01"
+#              zabbix_host => "[@metadata][zabbix_host]"
+#              zabbix_key => "[@metadata][zabbix_key]"
+#              zabbix_value => response_code
+#            }
+#          }
+#        }
     } else {
         elasticsearch {
             hosts => {{ logstash_output_es_hosts | to_json }}

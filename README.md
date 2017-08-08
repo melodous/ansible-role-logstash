@@ -142,6 +142,18 @@ changelog.
 
 -   First change
 
+### logstash v0.0.2 - 2017/08/08
+
+##### Changed
+
+-   Updated grok filters for finanzas openshift project
+
+### logstash v0.0.3 - 2017/07/21
+
+##### Changed
+
+-   Added filters for openshift projects
+
 ### logstash v0.0.2 - 2017/07/17
 
 ##### Changed

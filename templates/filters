@@ -38,5 +38,31 @@ filter {
         remove_field => [ "docker" ]
       }
     }
+    if [project_name] == "finanzas-dev" or [project_name] == "finanzas-cua" {
+      grok {
+        match => { "log" => "(?<fecha>\d\d\d\d-\d\d-\d\d\s\d\d:\d\d:\d\d.\d\d\d)\s*(?<severidad>\b\w+\b)\s*(\[(?<servicio>\w+),(?<corralation_id>\w*),(?<transaction_id>\w*),\w*\])?\s*\d\s*---\s*\[(?<thread_id>[\w-]+)\]\s*(?<componente>[\w\.]+)\s*:\s*(?<msg>.*)" }
+      }
+      if [componente] == "c.c.m.g.c.filters.RestServicesLogFilter" {
+        grok {
+          match => { "msg" => "\w*\s*=>(?<json_msg>{.*})\s*" }
+          remove_field=>["msg"]
+        }
+        json { 
+          source => "json_msg"
+          remove_field=>["json_msg"]
+        }
+        grok {
+          match => { "URL" => "(/\w+/)*(?<funcion>\w+)$" }
+        }
+      }
+      if [componente] == "c.c.m.g.service.impl.RestServiceBase" {
+        grok {
+          match => { "msg" => "\w*\[(?<response_code>\d*)\].*" }
+          remove_field=>["msg"]
+          add_field => { "[@metadata][zabbix_key]" => "facturas.responsecode" }
+          add_field => { "[@metadata][zabbix_host]" => "test_facturas" }
+        }
+      }
+    }
   }
 }
